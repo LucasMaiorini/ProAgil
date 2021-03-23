@@ -20,4 +20,16 @@ export class EventoService {
   getEventoTema(tema: string): Observable<Evento> {
     return this.http.get<Evento>(`${this.baseURL}/getByTema/${tema}`);
   }
+
+  postEvento(evento: Evento): any {
+    return this.http.post(`${this.baseURL}`, evento);
+  }
+
+  putEvento(evento: Evento): any {
+    return this.http.put(`${this.baseURL}/${evento.id}`, evento);
+  }
+
+  deleteEvento(id: number): any {
+    return this.http.delete(`${this.baseURL}/${id}`);
+  }
 }
