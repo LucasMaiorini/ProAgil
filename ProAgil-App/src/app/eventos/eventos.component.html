@@ -41,7 +41,7 @@
       <td>
         <img
           *ngIf="mostrarImg"
-          src="http://localhost:5000/img/{{ evento.imagemURL }}"
+          src="http://localhost:5000/resources/images/{{ evento.imagemURL }}"
           [style.width.px]="imagemLargura"
           [style.margin.px]="imagemMargem"
         />
@@ -86,7 +86,7 @@
   </tfoot>
 </table>
 
-<!-- TEMPLATE MODAL-->
+<!-- TEMPLATE MODAL FORM. EDIÇÃO-->
 <div
   bsModal
   #template="bs-modal"
@@ -177,8 +177,8 @@
                 type="text"
                 class="form-control"
                 bsDatepicker
-                value="{{dataEvento | DateTimeFormatPipe}}"
                 [(ngModel)]="dataEvento"
+                value="{{ dataEvento | DateTimeFormatPipe }}"
                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY hh:mm' }"
                 [ngClass]="{
                   'is-invalid':
@@ -228,17 +228,28 @@
 
             <div class="form-group col-md-9">
               <label>Imagem</label>
-              <input
-                type="text"
-                [ngClass]="{
-                  'is-invalid':
-                    registerForm.get('imagemURL')?.errors &&
-                    registerForm.get('imagemURL')?.touched
-                }"
-                class="form-control"
-                formControlName="imagemURL"
-                placeholder="imagem para o evento"
-              />
+              <table>
+                <tr>
+                  <td>
+                    <button class="btn btn-success" (click)="file.click()">
+                      Enviar Imagem
+                    </button>
+                    <input
+                      type="file"
+                      #file
+                      [ngClass]="{
+                        'is-invalid':
+                          registerForm.get('imagemURL')?.errors &&
+                          registerForm.get('imagemURL')?.touched
+                      }"
+                      (change)="onFileChange($event)"
+                      class="form-control"
+                      formControlName="imagemURL"
+                      style="display: none"
+                    />
+                  </td>
+                </tr>
+              </table>
               <div
                 *ngIf="registerForm.get('imagemURL')!.hasError('required')"
                 class="invalid-feedback"
@@ -315,29 +326,47 @@
 
 <!-- FORMULÁRIO DELETAR -->
 
-<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-	<div class="modal-dialog modal-sm">
-  		<div class="modal-content">
-    		<div class="modal-header">
-      			<h4 class="modal-title pull-left">
-        			Deletando Evento
-      			</h4>
-      			<button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
-        			<span aria-hidden="true">&times;</span>
-      			</button>
-    		</div>
-    		<div class="modal-body">
-      			<p>{{bodyDeletarEvento}}</p>
-    		</div>    
-    		<div class="modal-footer btn-group d-flex">      
-      			<button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
-        			CENCELAR
-      			</button>
-      			<button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
-          			DELETAR
-        		</button>
-    		</div>
-  		</div>
-	</div>
+<div
+  bsModal
+  #confirm="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-sizes-name1"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Deletando Evento</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          (click)="confirm.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ bodyDeletarEvento }}</p>
+      </div>
+      <div class="modal-footer btn-group d-flex">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="confirm.hide()"
+        >
+          CENCELAR
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="confirmeDelete(confirm)"
+        >
+          DELETAR
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- FIM FORMULÁRIO DELETAR -->

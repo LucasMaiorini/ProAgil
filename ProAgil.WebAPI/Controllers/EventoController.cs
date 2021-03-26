@@ -1,3 +1,5 @@
+using System.IO;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -79,7 +81,7 @@ namespace ProAgil.WebAPI.Controllers
                 _repo.Add(evento);
                 if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}",  this._mapper.Map<EventoDto>(evento));
+                    return Created($"/api/evento/{model.Id}", this._mapper.Map<EventoDto>(evento));
 
                 }
             }
@@ -88,6 +90,38 @@ namespace ProAgil.WebAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
             }
             return BadRequest();
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload()
+        {
+            try
+            {
+                //it's always an array, that's the reason the position is 0.
+                var file = Request.Form.Files[0];
+                //Merges the two arguments to name the variable folderName.
+                var folderName = Path.Combine("Resources", "Images");
+                //Gets the current directory and merges with the variable folderName.
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (file.Length > 0)
+                {
+                    //finds out the file's name
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    //Path + Name that the picture will be saved. Replaces double quotes by empty space
+                    var fullPath = Path.Combine(pathToSave, fileName.Replace("\"", " ").Trim());
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou { ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]
