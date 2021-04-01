@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,8 +17,12 @@ import { EventosComponent } from './eventos/eventos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { ContatosComponent } from './contatos/contatos.component';
-import {TituloComponent} from './shared/titulo/titulo.component';
+import { TituloComponent } from './shared/titulo/titulo.component';
+import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 import { DateTimeFormatPipePipe } from './helper/DateTimeFormatPipe.pipe';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,9 @@ import { DateTimeFormatPipePipe } from './helper/DateTimeFormatPipe.pipe';
     ContatosComponent,
     TituloComponent,
     DateTimeFormatPipePipe,
+    UserComponent,
+    LoginComponent,
+    RegistrationComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +52,9 @@ import { DateTimeFormatPipePipe } from './helper/DateTimeFormatPipe.pipe';
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({ timeOut: 3000, progressBar: true }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

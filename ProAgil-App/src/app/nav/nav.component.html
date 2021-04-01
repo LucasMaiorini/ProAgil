@@ -13,12 +13,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <div
+      *ngIf="loggedIn()"
+      class="collapse navbar-collapse"
+      id="navbarsExampleDefault"
+    >
       <ul class="navbar-nav mr-auto">
         <li routerLinkActive="active" class="nav-item">
           <a class="nav-link" routerLink="eventos"
-            >Eventos <span class="sr-only"></span></a
-          >
+            >Eventos <span class="sr-only"></span
+          ></a>
         </li>
         <li routerLinkActive="active" class="nav-item">
           <a class="nav-link" routerLink="palestrantes">Palestrantes</a>
@@ -29,29 +33,33 @@
       </ul>
     </div>
 
-    <ul class="navbar-nav">
+    <ul *ngIf="loggedIn()" class="navbar-nav" style="cursor: pointer;">
       <li class="nav-item dropdown" dropdown>
         <a
           dropdownToggle
           class="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdownMenuLink"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
+          
         >
-          Vinícius
+          {{authService.decodedToken?.unique_name}}
         </a>
         <div
           *dropdownMenu
           class="dropdown-menu"
           aria-labelledby="navbarDropdownMenuLink"
         >
-          <a class="dropdown-item" href="#"> Perfil </a>
+          <a class="dropdown-item"> Perfil </a>
           <div role="separator" class="divider"></div>
-          <a class="dropdown-item" href="#"> Sair </a>
+          <a class="dropdown-item" (click)="logout()"> Sair </a>
         </div>
       </li>
     </ul>
+    <button *ngIf="!loggedIn()" class="btn btn-success" (click)="entrar()">
+      Login
+    </button>
+
   </div>
 </nav>

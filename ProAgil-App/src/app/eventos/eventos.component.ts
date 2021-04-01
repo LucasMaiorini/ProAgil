@@ -199,7 +199,7 @@ export class EventosComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
-      local: ['', Validators.required],
+      local: ['', [Validators.required, Validators.minLength(3)]],
       dataEvento: ['', Validators.required],
       imagemURL: ['', Validators.required],
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
