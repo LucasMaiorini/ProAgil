@@ -117,6 +117,11 @@ namespace ProAgil.Repository
             query = query.OrderBy(p => p.Nome);
             return await query.ToArrayAsync();
         }
+
+        public void DeleteRange<T>(T[] entityArray) where T : class
+        {
+            _context.RemoveRange(entityArray);
+        }
         #endregion
 
     }

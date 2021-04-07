@@ -13,15 +13,15 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService,
     public authService: AuthService,
     public router: Router
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   loggedIn(): boolean {
     return this.authService.loggedIn();
   }
 
-  entrar(): void{
+  entrar(): void {
     this.router.navigate(['/user/login']);
   }
 
@@ -29,5 +29,9 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('token');
     this.toastr.show('Log Out');
     this.router.navigate(['/user/login']);
+  }
+
+  userName(): string {
+    return sessionStorage.getItem('username');
   }
 }

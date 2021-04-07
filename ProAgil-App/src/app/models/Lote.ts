@@ -1,6 +1,6 @@
 import { Evento } from './Evento';
 
-export interface Lote {
+export class Lote {
   id: number;
   nome: string;
   preco: number;
@@ -9,4 +9,8 @@ export interface Lote {
   quantidade: number;
   eventoId: number;
   evento: Evento;
+ 
+  constructor(id: number) {
+    this.id = id
+  }
 }

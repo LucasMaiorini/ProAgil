@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -92,6 +94,7 @@ namespace ProAgil.WebAPI.Controllers
             return BadRequest();
         }
 
+        // Used to upload image file
         [HttpPost("upload")]
         public async Task<IActionResult> Upload()
         {
@@ -134,6 +137,35 @@ namespace ProAgil.WebAPI.Controllers
                 {
                     return NotFound();
                 }
+
+                // DELETE EVENTO & REDE SOCIAL IF NECESSARY
+
+                // Creates the lists which will store the respectives datas ids.
+                var idLotesList = new List<int>();
+                var idRedesSociaisList = new List<int>();
+
+                // For each item in the given entity (Lotes or RedesSociais) passed through model,
+                //we add it to the newly created lists.
+                model.Lotes.ForEach(item => idLotesList.Add(item.Id));
+                model.RedesSociais.ForEach(item => idRedesSociaisList.Add(item.Id));
+
+                /*
+                Gets all the data in the given entity which doesn't match the model
+                (passed through parameter in this function).
+                */
+                var lotes = evento.Lotes.Where(
+                                   lote => !idLotesList.Contains(lote.Id)
+                    ).ToArray();
+
+                var redesSociais = evento.RedesSociais.Where(
+                    rede => !idRedesSociaisList.Contains(rede.Id)
+                            ).ToArray();
+
+                // If there is some data wich is not present in the new update, it must be deleted.
+                if (lotes.Length > 0) _repo.DeleteRange(lotes);
+                if (redesSociais.Length > 0) _repo.DeleteRange(redesSociais);
+                //END OF THE DELETE EVENTO & REDE SOCIAL SECTION
+
                 //Changes the 'evento' according to 'model'
                 this._mapper.Map(model, evento);
 

@@ -26,6 +26,8 @@ export class EventoService {
   postEvento(evento: Evento): any {
     return this.http.post(`${this.baseURL}`, evento);
   }
+  
+  /* Used to update the image file */
   postUpload(file: File[], name: string): any {
     const fileToUpload = file[0] as File;
     const formData = new FormData();

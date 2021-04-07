@@ -9,7 +9,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {TabsModule} from 'ngx-bootstrap/tabs';
 import { ToastrModule } from 'ngx-toastr';
+import {NgxMaskModule} from 'ngx-mask';
+import {NgxCurrencyModule} from 'ngx-currency';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -22,6 +25,7 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { DateTimeFormatPipePipe } from './helper/DateTimeFormatPipe.pipe';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
@@ -37,6 +41,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     UserComponent,
     LoginComponent,
     RegistrationComponent,
+    EventoEditComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +56,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({ timeOut: 3000, progressBar: true }),
+    TabsModule.forRoot(),
+    NgxMaskModule.forRoot(),
+    NgxCurrencyModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

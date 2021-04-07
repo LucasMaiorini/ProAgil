@@ -11,7 +11,7 @@ namespace ProAgil.WebAPI.Dtos
         public decimal Preco { get; set; }
         public string DataInicio { get; set; }
         public string DataFim { get; set; }
-        [Range(1, 10, ErrorMessage = "Deve haver entre 1 e 10 lotes")]
+        [Range(1, 100000, ErrorMessage = "Deve haver entre 1 e 100.000 lotes")]
         public int Quantidade { get; set; }
     }
 }

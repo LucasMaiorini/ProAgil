@@ -1,7 +1,11 @@
-export interface RedeSocial {
+export class RedeSocial {
   id: number;
   nome: string;
-  uRL: string;
+  URL: string;
   eventoId?: number;
   palestranteId?: number;
+
+  constructor(id: number) {
+    this.id = id;
+  }
 }

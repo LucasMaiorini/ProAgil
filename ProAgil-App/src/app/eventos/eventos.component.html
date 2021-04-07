@@ -33,7 +33,7 @@
       <th>Data</th>
       <th>Qtd. Pessoas</th>
       <th>Lote</th>
-      <th>Opções</th>
+      <th colspan="2">Opções</th>
     </tr>
   </thead>
   <tbody *ngIf="eventos.length">
@@ -41,7 +41,9 @@
       <td>
         <img
           *ngIf="mostrarImg"
-          src="http://localhost:5000/resources/images/{{ evento.imagemURL }}"
+          src="http://localhost:5000/resources/images/{{
+            evento.imagemURL
+          }}?ts={{ dataAtual }}"
           [style.width.px]="imagemLargura"
           [style.margin.px]="imagemMargem"
         />
@@ -49,7 +51,7 @@
       <td>{{ evento.id }}</td>
       <td>{{ evento.tema }}</td>
       <td>{{ evento.local }}</td>
-      <td>{{ evento.dataEvento | DateTimeFormatPipe }}</td>
+      <td>{{ evento.dataEvento }}</td>
       <td>{{ evento.qtdPessoas }}</td>
       <td>
         <div *ngIf="!evento.lotes.length">Não Informado</div>
@@ -63,19 +65,29 @@
             class="btn btn-sm btn-primary"
             tooltip="Editar"
             (click)="editarEvento(evento, template)"
-            placement="left"
+            placement="top"
           >
             <i class="fa fa-edit"></i>
           </button>
-          <button
-            class="btn btn-sm btn-danger"
-            tooltip="Excluir"
-            (click)="excluirEvento(evento, confirm)"
-            placement="right"
+          <a
+            [routerLink]="['/evento', evento.id, 'edit']"
+            class="btn btn-sm btn-warning"
+            tooltip="Edição Detalhada"
+            placement="top"
           >
-            <i class="fa fa-eraser"></i>
-          </button>
+            <i class="fa fa-edit"></i>
+          </a>
         </div>
+      </td>
+      <td>
+        <button
+          class="btn btn-sm btn-danger"
+          tooltip="Excluir"
+          (click)="excluirEvento(evento, confirm)"
+          placement="top"
+        >
+          <i class="fa fa-eraser"></i>
+        </button>
       </td>
     </tr>
   </tbody>

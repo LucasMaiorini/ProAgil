@@ -85,6 +85,7 @@ export class EventosComponent implements OnInit {
     this.fileNameToUpdate = eventoParam.imagemURL.toString();
     this.evento.imagemURL = '';
     this.registerForm.patchValue(this.evento);
+    console.log(`evento: ${eventoParam.dataEvento}` );
   }
 
   openModal(template: any): void {

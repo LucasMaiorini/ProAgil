@@ -12,7 +12,7 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(model: any): Observable<void> {
     // Pipe is used to works with the observable that is returned in http.post.
@@ -23,6 +23,7 @@ export class AuthService {
           // Save the user token inside de localStorage's token.
           localStorage.setItem('token', user.token);
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          sessionStorage.setItem('username', this.decodedToken.unique_name);
         }
       })
     );
